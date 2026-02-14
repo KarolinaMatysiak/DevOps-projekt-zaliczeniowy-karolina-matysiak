@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: |
+        dotnet restore ProductApi/ProductApi.csproj
+        dotnet restore ProductApi.Tests/ProductApi.Tests.csproj
+
+    - name: Build
+      run: |
+        dotnet build ProductApi/ProductApi.csproj --no-restore
+        dotnet build ProductApi.Tests/ProductApi.Tests.csproj --no-restore
+
+    - name: Run unit tests
+      run: dotnet test ProductApi.Tests/ProductApi.Tests.csproj --no-build --verbosity normal
+
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+        cache: npm
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test -- --ci
+
+    - name: Build
+      run: npm run build
