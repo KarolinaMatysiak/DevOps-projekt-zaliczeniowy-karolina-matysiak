@@ -26,10 +26,14 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
-        run: dotnet restore ProductApi/ProductApi.csproj
+        run: |
+          dotnet restore ProductApi/ProductApi.csproj
+          dotnet restore ProductApi.Tests/ProductApi.Tests.csproj
 
       - name: Build
-        run: dotnet build ProductApi/ProductApi.csproj --configuration Release --no-restore
+        run: |
+          dotnet build ProductApi/ProductApi.csproj --no-restore
+          dotnet build ProductApi.Tests/ProductApi.Tests.csproj --no-restore
 
       - name: Run unit tests
         run: dotnet test ProductApi.Tests/ProductApi.Tests.csproj --configuration Release --no-build --verbosity normal
