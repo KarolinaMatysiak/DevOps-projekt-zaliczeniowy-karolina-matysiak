@@ -37,12 +37,12 @@ jobs:
 
       - name: Run unit tests
         run: dotnet test ProductApi.Tests/ProductApi.Tests.csproj --configuration Release --no-build --verbosity normal --logger "xunit;LogFilePath=TestResults.xml"
-        
+
       - name: Upload unit test results
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: backend/TestResults.xml
+          path: TestResults.xml
 
       - name: Publish backend
         run: dotnet publish ProductApi/ProductApi.csproj --configuration Release --no-build --output ${{ github.workspace }}/backend_publish
