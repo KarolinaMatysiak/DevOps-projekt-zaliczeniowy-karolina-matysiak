@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: TestResults.xml
+          path: ProductApi.Tests/TestResults.xml
 
       - name: Publish backend
         run: dotnet publish ProductApi/ProductApi.csproj --configuration Release --no-build --output ${{ github.workspace }}/backend_publish
