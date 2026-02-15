@@ -36,7 +36,7 @@ jobs:
           dotnet build ProductApi.Tests/ProductApi.Tests.csproj --configuration Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test ProductApi.Tests/ProductApi.Tests.csproj --configuration Release --no-build --verbosity normal --logger "xunit;LogFilePath=TestResults.xml"
+        run: dotnet test ProductApi.Tests/ProductApi.Tests.csproj --configuration Release --no-build --verbosity normal  --logger "xunit;LogFilePath=ProductApi.Tests/TestResults.xml"
 
       - name: Upload unit test results
         uses: actions/upload-artifact@v4
